@@ -1,4 +1,4 @@
-return { -- Autocompletion
+return { { -- Autocompletion 1
     'hrsh7th/nvim-cmp',
     dependencies = {
         -- Snippet Engine & its associated nvim-cmp source
@@ -67,6 +67,27 @@ return { -- Autocompletion
             Operator = '󰆕',
             TypeParameter = '󰊄',
         }
+
+        --custom cmp window
+        -- Set up custom highlighting for completion menu
+        vim.api.nvim_set_hl(0, "CmpItemAbbr", { fg = "#C8D3F5" })
+        vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { fg = "#82AAFF", bold = true })
+        vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { fg = "#82AAFF", bold = true })
+        vim.api.nvim_set_hl(0, "CmpItemMenu", { fg = "#7A88CF", italic = true })
+
+        -- Kind specific colors
+        vim.api.nvim_set_hl(0, "CmpItemKindFunction", { fg = "#82AAFF" })
+        vim.api.nvim_set_hl(0, "CmpItemKindMethod", { fg = "#82AAFF" })
+        vim.api.nvim_set_hl(0, "CmpItemKindVariable", { fg = "#C099FF" })
+        vim.api.nvim_set_hl(0, "CmpItemKindField", { fg = "#C099FF" })
+        vim.api.nvim_set_hl(0, "CmpItemKindProperty", { fg = "#C099FF" })
+        vim.api.nvim_set_hl(0, "CmpItemKindClass", { fg = "#FFCB6B" })
+        vim.api.nvim_set_hl(0, "CmpItemKindInterface", { fg = "#FFCB6B" })
+        vim.api.nvim_set_hl(0, "CmpItemKindModule", { fg = "#89DDFF" })
+        vim.api.nvim_set_hl(0, "CmpItemKindFile", { fg = "#89DDFF" })
+        vim.api.nvim_set_hl(0, "CmpItemKindFolder", { fg = "#89DDFF" })
+
+
         cmp.setup {
             snippet = {
                 expand = function(args)
@@ -183,4 +204,53 @@ return { -- Autocompletion
             },
         }
     end,
+},
+    {
+        "antosha417/nvim-lsp-file-operations",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            -- Uncomment whichever supported plugin(s) you use
+            "nvim-tree/nvim-tree.lua",
+            "simonmclean/triptych.nvim"
+        },
+        config = function()
+            require("lsp-file-operations").setup()
+        end,
+    },
+    {
+
+        "folke/lazydev.nvim",
+        ft = "lua", -- only load on lua files
+        opts = {
+            library = {
+                -- See the configuration section for more details
+                -- Load luvit types when the `vim.uv` word is found
+                { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+            },
+        },
+    },
+
 }
+
+
+--------------------------------------------------------------------------------
+-- ---Autocompletion 2
+-- return {
+--     "hrsh7th/cmp-nvim-lsp",
+--     event = { "BufReadPre", "BufNewFile" },
+--     dependencies = {
+--         { "antosha417/nvim-lsp-file-operations", config = true },
+--         { "folke/lazydev.nvim",                  opts = {} },
+--     },
+--     config = function()
+--         -- import cmp-nvim-lsp plugin
+--         local cmp_nvim_lsp = require("cmp_nvim_lsp")
+
+--         -- used to enable autocompletion (assign to every lsp server config)
+--         local capabilities = cmp_nvim_lsp.default_capabilities()
+
+--         vim.lsp.config("*", {
+--             capabilities = capabilities,
+--         })
+--     end,
+-- }
